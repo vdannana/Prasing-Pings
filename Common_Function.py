@@ -7,6 +7,10 @@ import matplotlib.pyplot as plt
 
 import Configuration as conf
 
+
+'''
+    createDirectory function create required directories.
+'''
 def createDirectory():
     if not os.path.exists(conf.Log_Directory):
         os.mkdir(conf.Log_Directory)
@@ -33,6 +37,13 @@ def createDirectory():
         print("Directory ", conf.Log_Directory + '/' + conf.Histogram_Plot,  " already exists")
 
 
+'''
+    Ping_Parser function parses the ping log input file and 
+    records consecutive ping drops occured more than conf.Max_Count with the time.
+    The Aruguments
+        1)File_Name if the input ping log file path.
+        2)Output_File_Name is the output file path.
+'''
 def Ping_Parser(File_Name,Output_File_Name):
     f = open(Output_File_Name, "w")
     if not os.path.exists(File_Name):
@@ -62,10 +73,15 @@ def Ping_Parser(File_Name,Output_File_Name):
     f.close()
 
 
+'''
+    Latency_vs_Time function plot a Latency vs Time of ping packets in ping log input file.
+    The Aruguments
+        1)File_Name if the input ping log file path.
+        2)Output_File_Name is the output graph image path.
+'''
 def Latency_vs_Time(File_Name,Output_File_Name):
     time = []
     latency = []
-    sample = False
     with open(File_Name, "r") as file:
         for line in file:
             x = re.search(".*From.*time=.*", line.strip())
@@ -87,6 +103,13 @@ def Latency_vs_Time(File_Name,Output_File_Name):
     print('Finished ploting ' + File_Name + ' output file saved at ' + Output_File_Name)
 
 
+'''
+    Histogram_Plot function plot a Histogram graph of the output files of Ping_Parser function.
+    The Aruguments
+        1)File_Name if the input ping log file path.
+        2)Output_File_Name is the output file path.
+        3)Output_Graph_Name is the Histogram plot image path.
+'''
 def Histogram_Plot(File_Name, Output_File_Name, Output_Graph_Name) :
     f = open(Output_File_Name, "w")
     if not os.path.exists(File_Name):
@@ -107,6 +130,9 @@ def Histogram_Plot(File_Name, Output_File_Name, Output_Graph_Name) :
     f.close()
 
 
+'''
+    Plot_Graph function plot Histogram of the given Input_Dictionary and the graph is stored at Output_File_Name.
+'''
 def Plot_Graph(Input_Dictionary,Output_File_Name):
     dict = sorted(Input_Dictionary)
     bucket_list = {}
